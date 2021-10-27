@@ -8,16 +8,25 @@ app.use(express.json());
 app.use(cors());
 require("dotenv").config();
 
-const connect = require("./configs/db");
+const connect = require("./src/configs/db");
 
 
-const flightController = require("./controllers/flight.controllers");
-const signupController=require("./controllers/signup.controllers")
+const flightController = require("./src/controllers/flight.controllers");
+const signupController=require("./src/controllers/signup.controllers")
 
 
 app.use("/flights", flightController);
 app.use("./signup", signupController);
 // app.set("views", path.join(__dirname, "views/"));
+
+app.get("/", async (req, res) => {
+  try {
+    return res.redirect("/flights/");
+  } catch (err) {
+    return res.status(400).send(err.message);
+  }
+});
+
 
 
 app.listen(process.env.PORT||5000, async () => {
